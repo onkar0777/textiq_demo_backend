@@ -4,7 +4,8 @@ This project is on MERN Stack. React source code can be found here - https://git
 1. Go to the root folder
 2. run `npm i`
 3. IMPORTANT - `Follow steps in this - https://github.com/PranavHerur/ner-server`
-4. Step 3 will start a java server which will be processing the Named Entity extraction requests
+4. You can use this classifier for the Java server - english.all.3class.distsim.crf.ser.gz
+5. Step 3 will start a java server which will be processing the Named Entity extraction requests
 
 ## PRE-PROCESSING
 After following Basic Setup, follow these steps to preprocess data.
