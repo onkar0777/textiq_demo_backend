@@ -32,6 +32,7 @@ app.use(
   })
 );
 
+// Cors to ease development
 var corsOptions = {
   origin: "*",
   optionsSuccessStatus: 200
@@ -41,8 +42,12 @@ app.use(cors(corsOptions));
 app.post("/api/upload", upload);
 app.use("/api/doc", API_DOCS);
 
-app.get("/", (req, res) => {
-  res.send("client server alive");
+// Serve any static files
+app.use(express.static(`${__BASE__}client/build`));
+
+// Handle React routing, return all requests to React app
+app.get("*", function(req, res) {
+  res.sendFile(`${__BASE__}client/build/index.html`);
 });
 
 app.listen(3500, () => {

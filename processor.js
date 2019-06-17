@@ -23,6 +23,7 @@ mongoose.connect(
   }
 );
 
+// Cors to ease development
 var corsOptions = {
   origin: "*",
   optionsSuccessStatus: 200
