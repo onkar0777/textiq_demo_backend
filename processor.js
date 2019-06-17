@@ -5,7 +5,7 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 
-const initDbFromFolder = require("./api/init");
+const initApis = require("./api/init");
 mongoose.Promise = global.Promise;
 // Connect MongoDB at default port 27017.
 mongoose.connect(
@@ -29,7 +29,8 @@ var corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.get("/api/init", initDbFromFolder);
+app.get("/api/init", initApis.initDbFromFolder);
+app.get("/api/init_with_workers", initApis.initDbFromFolderWithWorkers);
 
 app.get("/", (req, res) => {
   res.send(

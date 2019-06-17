@@ -42,7 +42,7 @@ const createDocument = function(parameters) {
       if (!err) {
         resolve(data);
       } else {
-        console.error("CreateDocument", err, template);
+        console.error("CreateDocument", err.errmsg);
         reject(err);
       }
     });
