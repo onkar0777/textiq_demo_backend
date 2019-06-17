@@ -9,6 +9,8 @@ const processFile = function(folder, name) {
       if (err) reject(err);
       console.log("Processing file - ");
       // From ner-server npm docs
+      // If this server is not local and duplicate requests can come then we should
+      // do this step only after checking if the db entry will be done or not.
       ner.post("localhost", 9191, fileContent, function(err, res) {
         if (err) console.log(`ERR- ${name}, err- ${JSON.stringify(err)}`);
         if (res && res.tags && Object.keys(res.tags).length) {
@@ -66,6 +68,7 @@ const processFile = function(folder, name) {
     });
   });
 };
+
 const getDocuments = function(query) {
   return docOperations.getDocuments(query, undefined, {
     sort: {
@@ -108,6 +111,30 @@ const deleteEntityFromDoc = function({ docId, entity }) {
   const template = {
     $pull: { entities: { _id: entity } }
   };
+
+  return docOperations.updateDocument(query, template).then(doc => {
+    const secQuery = {
+      _id: docId
+    };
+    return docOperations.getDocuments(secQuery).then(docs => {
+      console.log(docs, docs[0]);
+      console.log(docs[0].entities.length);
+      let filteredEntities = docs[0].entities.map(item => {
+        item.linked_to = item.linked_to.filter(item2 => item2._id !== entity);
+        return item;
+      });
+      console.log(filteredEntities, filteredEntities.length);
+      const secTemplate = { $set: { entities: filteredEntities } };
+      return docOperations.updateDocument(secQuery, secTemplate);
+    });
+  });
+};
+
+const deleteAllEntitiesFromDoc = function({ docId }) {
+  const query = { _id: docId };
+  const template = {
+    entities: []
+  };
   return docOperations.updateDocument(query, template);
 };
 
@@ -116,5 +143,6 @@ module.exports = {
   getDocuments,
   deleteEntityFromDoc,
   updateRelatedEntities,
-  addEntity
+  addEntity,
+  deleteAllEntitiesFromDoc
 };

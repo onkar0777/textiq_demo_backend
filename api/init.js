@@ -1,8 +1,9 @@
 const fs = require("fs");
 const rabbitPublisher = require(__BASE__ + "rabbitmq/publisher");
 const docController = require(__BASE__ + "controllers/docController");
+const CONSTANTS = require(__BASE__ + "config/constants");
 
-const FILES_FOLDER = `${__BASE__}TEXT/`;
+const FILES_FOLDER = CONSTANTS.TEXT_FOLDER;
 
 const CALL_DELAY = 50;
 
