@@ -26,5 +26,6 @@ The Pre-Processing can be done in 2 ways.
 
 ## CLIENT SERVER
 1. run `node app.js`
-2. This will start a client server on `localhost:3000`
+2. This will start a client server on `localhost:3500`
 3. Please follow the PRE-PROCESSING steps before launching the client server 
+4. This React code is in client folder. You can run local react server separately if needed.
